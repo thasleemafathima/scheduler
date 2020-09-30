@@ -10,7 +10,17 @@ import DayListItem from "components/DayListItem";
 import DayList from "components/DayList";
 import InterviewerListItem from "components/InterviewerListItem";
 import InterviewerList from "components/InterviewerList";
-import Appointment from "components/Appointment";
+import Appointment from "components/Appointment/index.js";
+import Header from "components/Appointment/Header.js";
+import Empty from "components/Appointment/Empty.js";
+import Show from "components/Appointment/Show.js";
+import Confirm from "components/Appointment/Confirm.js";
+import StatusDelete from "components/Appointment/Status_deleting.js";
+import StatusSave from "components/Appointment/Status_saving.js";
+import ErrorSave from "components/Appointment/Error_save.js";
+import ErrorDelete from "components/Appointment/Error_delete.js";
+
+
 
 storiesOf("Button", module)
   .addParameters({
@@ -141,4 +151,19 @@ storiesOf("Button", module)
     backgrounds: [{ name: "white", value: "#fff", default: true }]
   })
   .add("Appointment", () => <Appointment />)
-  .add("Appointment with Time", () => <Appointment time="12pm" />);
+  .add("Appointment with Time", () => <Appointment time="12pm" />)
+  .add("Header", () => <Header time="12pm" />)
+  .add("Empty", () => <Empty onAdd={action("onAdd")}/>)
+  .add("Show", () => <Show student="Lydia Miller-Jones"
+  interviewer={interviewer.name}
+  onEdit={action("onEdit")}
+  onDelete={action("onDelete")} />)
+  .add("Confirm", () => <Confirm message="Delete the appointment?"
+  onConfirm={action("onConfirm")}
+  onCancel={action("onCancel")} /> )
+  .add("Status_Save", () => <StatusSave message="Saving"/>)
+  .add("Status_delete", () => <StatusDelete message="Deleting"/>)
+  .add("Error_delete", () => <ErrorDelete message="Could not delete appointment."
+  onClose={action("onClose")}/>)
+  .add("Error_save", () => <ErrorSave message="Could not save appointment."
+  onClose={action("onClose")}/>);
