@@ -2,7 +2,7 @@ import React from "react";
 
 
 
-export default function ErrorDelete(props) {
+export default function Error(props) {
   
  
 	return (

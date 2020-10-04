@@ -2,7 +2,7 @@ import React from "react";
 
 
 
-export default function StatusDelete(props) {
+export default function Status(props) {
   
  
 	return (
