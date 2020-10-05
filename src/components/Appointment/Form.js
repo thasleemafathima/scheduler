@@ -39,8 +39,6 @@ export default function Form(props) {
         placeholder="Enter Student Name"
         value={name}
         onChange={event => setName(event.target.value)}
-        onSubmit={event => event.preventDefault()}
-        data-testid="student-name-input"
         /*
           This must be a controlled component
         */
