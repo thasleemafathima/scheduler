@@ -5,16 +5,16 @@ import "components/DayListItem.scss";
 var classNames = require('classnames');
 
 export default function DayListItem(props) {
-
+//console.log(props.spots);
   const formatSpots = function (spots) {
     if (spots === 0) {
       return "no spots remaining"
     }
     if (spots === 1) {
-      return `1 spot remaining `  
+      return `1 spot remaining`  
     }
-    if (spots) {
-      return `${spots} spots remaining `  
+    if (spots > 1) {
+      return `${spots} spots remaining`  
     }
   };
 
@@ -25,8 +25,8 @@ export default function DayListItem(props) {
   });
 
   return (
-    <li className={dayClass} onClick={props.setDay}>
-      <h2 className="text--regular">{props.name}</h2>
+    <li className={dayClass} onClick={props.setDay} data-testid="day">
+      <h2 className="text--regular" >{props.name}</h2>
       <h3 className="text--light">{formatSpots(props.spots)}</h3>
     </li>
   );

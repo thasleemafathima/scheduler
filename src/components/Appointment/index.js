@@ -101,7 +101,7 @@ export default function Appointment(props) {
 
         {mode === ERROR_SAVE && (
 				<Error
-					message="Error in editing the interview"
+					message="Error in saving the interview"
 					onClose={back}
 				/>
 			  )}

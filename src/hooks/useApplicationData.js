@@ -34,6 +34,11 @@ const bookInterview = (id, interview) => {
     ...state.appointments,
     [id]: appointment
   };
+ 
+  if(state.appointments[id].interview === null) {
+    changeSpots(-1);
+  }
+  
   setState({...state, appointments});
   return axios.put(`/api/appointments/${id}`, { interview: interview });
 }
@@ -41,14 +46,19 @@ const bookInterview = (id, interview) => {
 const cancelInterview = (id) => {
   const appointments = { ...state.appointments };
   appointments[id].interview = null;
-  
+  changeSpots(1);
   setState({...state, appointments});
-  
   return axios.delete(`/api/appointments/${id}`);
  
 }
 
- 
+function changeSpots (change) {
+  const myDay = state.days.find((d)=> d.name === state.day )
+    myDay.spots = myDay.spots + change ;
+    const dayId = myDay.id;
+    const days = [...state.days]
+    days[dayId] = myDay;
+}
 
 return {
   state,
