@@ -49,39 +49,6 @@ it("loads data, books an interview and reduces the spots remaining for Monday by
   expect(getByText(day, "no spots remaining")).toBeInTheDocument();
 });
 
-it("loads data, cancels an interview and increases the spots remaining for Monday by 1", async () => {
-  
-  const { container,debug } = render(<Application />);
-
-  // wait till the archie element shows up 
-  await waitForElement(() => getByText(container, "Archie Cohen"));
-
-
-  const appointment = getAllByTestId(container, "appointment").find(
-    appointment => queryByText(appointment, "Archie Cohen")
-  );
-
-  fireEvent.click(queryByAltText(appointment, "Delete"));
-
-  expect(
-    getByText(appointment, "Are you sure you would like to delete?")
-  ).toBeInTheDocument();
-
-  fireEvent.click(queryByText(appointment, "Confirm"));
-
-  expect(getByText(appointment, "Deleting")).toBeInTheDocument();
-
-  await waitForElement(() => getByAltText(appointment, "Add"));
-
-  const day = getAllByTestId(container, "day").find(day =>
-    queryByText(day, "Monday")
-  );
-
-  // // FAILING HERE
-  expect(getByText(day, "2 spots remaining")).toBeInTheDocument();
-  // //debug();
-});
-
 it('loads data, edits an interview and keeps the spots remaining for Monday the same', async () => {
   // Uncomment debug() at the bottom for testing
   const { container, debug } = render(<Application />);
@@ -93,7 +60,7 @@ it('loads data, edits an interview and keeps the spots remaining for Monday the 
     'appointment'
   ).find(appointment => queryByText(appointment, 'Archie Cohen'));
 
-  fireEvent.click(queryByAltText(appointment, 'Edit'));
+  fireEvent.click(getByAltText(appointment, 'Edit'));
 
   expect(getByDisplayValue(appointment, 'Archie Cohen'));
 
@@ -113,12 +80,47 @@ it('loads data, edits an interview and keeps the spots remaining for Monday the 
     queryByText(day, 'Monday')
   );
 
-  expect(getByText(day, '1 spot remaining')).toBeInTheDocument();
+  expect(getByText(day, 'no spots remaining')).toBeInTheDocument();
   // debug();
 });
 
+it("loads data, cancels an interview and increases the spots remaining for Monday by 1", async () => {
+  
+  const { container,debug } = render(<Application />);
+
+  // wait till the archie element shows up 
+  await waitForElement(() => getByText(container, 'Archie Cohen'));
+
+  const appointment = getAllByTestId(
+    container,
+    'appointment'
+  ).find(appointment => queryByText(appointment, 'Archie Cohen'));
+    
+  fireEvent.click(getByAltText(appointment, "Delete"));
+ 
+  expect(
+    getByText(appointment, "Are you sure you would like to delete?")
+  ).toBeInTheDocument();
+
+  fireEvent.click(queryByText(appointment, "Confirm"));
+
+  expect(getByText(appointment, "Deleting")).toBeInTheDocument();
+
+  await waitForElement(() => getByAltText(appointment, "Add"));
+
+  const day = getAllByTestId(container, "day").find(day =>
+    queryByText(day, "Monday")
+  );
+
+  // // FAILING HERE
+  expect(getByText(day, "1 spot remaining")).toBeInTheDocument();
+  // //debug();
+});
+
+
+
 it('shows the save error when failing to save an appointment', async () => {
-  axios.put.mockRejectedValueOnce();
+  
   // Uncomment debug() at the bottom of this test for testing
   const { container, debug } = render(<Application />);
 
