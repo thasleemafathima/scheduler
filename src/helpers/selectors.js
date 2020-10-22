@@ -4,13 +4,11 @@ export function getAppointmentsForDay(state, day) {
       return [];
     }
     const appointments = dayObj.appointments.map(appointmentsId => state.appointments[appointmentsId]);
-    //console.log("appointmnts in selector function: ",appointments)
     return appointments;
   };
 
   export  function getInterview(state, interview) {
     const foundInterview = {};
-    //console.log(state.interviewers,"interview",interview)
     if (interview && interview.interviewer) {
       for (const interviewer in state.interviewers) {
         if ( state.interviewers[interviewer].id === interview.interviewer) {
@@ -21,7 +19,6 @@ export function getAppointmentsForDay(state, day) {
     } else {
       return null;
     }
-    //console.log("interviews in selector function: ",foundInterview);
     return foundInterview;
   };
 
@@ -30,7 +27,7 @@ export function getAppointmentsForDay(state, day) {
     if (!dayObj) {
       return [];
     }
+    //iterate through the dayobj appointment array
     const interviewers = dayObj.interviewers.map(interviewrId => state.interviewers[interviewrId]);
-    //console.log("interviewers in selector function: ",interviewers);
     return interviewers;
   };

@@ -1,7 +1,16 @@
 import { useState, useEffect } from "react";
 import axios from 'axios';
 
-
+function recalculateRemainingSpots(days, appointments) {
+  return days.map(dayObj => ({
+    ...dayObj,
+    spots: dayObj.appointments
+      .map(id => appointments[id])
+      .filter(appointment => !appointment.interview)
+      .length
+  })
+  )
+}
 export default function useApplicationData() {
 
 const [state, setState] = useState({
@@ -35,29 +44,16 @@ const bookInterview = (id, interview) => {
     [id]: appointment
   };
  
-  if(state.appointments[id].interview === null) {
-    changeSpots(-1);
-  }
-  
-  setState({...state, appointments});
+  setState({...state, appointments, days: recalculateRemainingSpots(state.days, appointments)});
   return axios.put(`/api/appointments/${id}`, { interview: interview });
 }
 
 const cancelInterview = (id) => {
   const appointments = { ...state.appointments };
   appointments[id].interview = null;
-  changeSpots(1);
-  setState({...state, appointments});
+  setState({...state, appointments, days: recalculateRemainingSpots(state.days, appointments)});
   return axios.delete(`/api/appointments/${id}`);
  
-}
-
-function changeSpots (change) {
-  const myDay = state.days.find((d)=> d.name === state.day )
-    myDay.spots = myDay.spots + change ;
-    const dayId = myDay.id;
-    const days = [...state.days]
-    days[dayId] = myDay;
 }
 
 return {
